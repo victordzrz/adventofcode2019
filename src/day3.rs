@@ -2,8 +2,8 @@ use crate::common::get_input;
 extern crate gnuplot;
 extern crate nalgebra;
 extern crate regex;
-use gnuplot::{Caption, Color, Figure, PlotOption};
-use nalgebra::{Point, Point2};
+use gnuplot::{Color, Figure, PlotOption};
+use nalgebra::Point2;
 use regex::Regex;
 use std::collections::HashSet;
 use std::iter::FromIterator;
@@ -21,7 +21,7 @@ fn find_intersections(wire1: &Vec<Point2<i32>>, wire2: &Vec<Point2<i32>>) -> Vec
     let wire2_hash: HashSet<Point2<i32>> = HashSet::from_iter(wire2.clone());
 
     let hash_intersections = wire1_hash.intersection(&wire2_hash);
-    for inter in hash_intersections{
+    for inter in hash_intersections {
         intersections.push(*inter);
     }
     return intersections;
@@ -40,9 +40,14 @@ fn move_wire(
     }
 }
 
-fn steps_to_point(wire1: & Vec<Point2<i32>>,wire2: & Vec<Point2<i32>>,point:&Point2<i32>) -> usize{
-    let steps = wire1.iter().position(|p| p == point).unwrap() + wire2.iter().position(|p| p == point).unwrap();
-    println!("distance to {} = {}",point,steps);
+fn steps_to_point(
+    wire1: &Vec<Point2<i32>>,
+    wire2: &Vec<Point2<i32>>,
+    point: &Point2<i32>,
+) -> usize {
+    let steps = wire1.iter().position(|p| p == point).unwrap()
+        + wire2.iter().position(|p| p == point).unwrap();
+    println!("distance to {} = {}", point, steps);
     return steps;
 }
 
@@ -86,14 +91,17 @@ pub fn star1() {
         println!("Intersect {},{}", inter.x, inter.y);
     }
 
-    let distances:Vec<i32>= intersections
+    let distance = intersections
         .iter()
-        .map(|p| p.x.abs() + p.y.abs()).collect();
-    let distance =     distances.iter()
-    .min()
-    .unwrap();
+        .map(|p| p.x.abs() + p.y.abs())
+        .min()
+        .unwrap();
     println!("Distance {} ", distance);
 
-    let fewest_steps = intersections.iter().map(|intersection| steps_to_point(&wires[0], &wires[1], intersection)).min().unwrap();
+    let fewest_steps = intersections
+        .iter()
+        .map(|intersection| steps_to_point(&wires[0], &wires[1], intersection))
+        .min()
+        .unwrap();
     println!("Fewest steps {} ", fewest_steps);
 }

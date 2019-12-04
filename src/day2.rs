@@ -58,20 +58,20 @@ pub fn star2() {
     for arg1 in 1..input.len() {
         for arg2 in 1..input.len() {
             args = (arg1.try_into().unwrap(), arg2.try_into().unwrap());
-            print!("Args: {} {} ",arg1,arg2);
+            print!("Args: {} {} ", arg1, arg2);
             let computer = IntcodeComputer {
                 memory: input.clone(),
             };
             let result = computer.run(args.0, args.1);
             match result {
                 Ok(value) => {
-                    println!("Result: {}",value);
+                    println!("Result: {}", value);
                     if value == expected_result {
                         result_found = true;
                         break;
                     }
                 }
-                Err(error) => println!(" {}",error),
+                Err(error) => println!(" {}", error),
             }
         }
         if result_found {
