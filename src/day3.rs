@@ -8,11 +8,20 @@ use regex::Regex;
 use std::collections::HashSet;
 use std::iter::FromIterator;
 
-fn plot_wire(wire: &Vec<Point2<i32>>, figure: &mut Figure, color: PlotOption<&str>) {
-    let xs: Vec<i32> = wire.into_iter().map(|p| p.x).collect();
-    let ys: Vec<i32> = wire.into_iter().map(|p| p.y).collect();
+fn plot_wires(wire1: &Vec<Point2<i32>>, wire2: &Vec<Point2<i32>>) {
+    let mut figure = Figure::new();
 
-    figure.axes2d().lines(&xs, &ys, &[Color("red")]);
+    let xs1: Vec<i32> = wire1.into_iter().map(|p| p.x).collect();
+    let ys1: Vec<i32> = wire1.into_iter().map(|p| p.y).collect();
+
+    let axes = figure.axes2d().lines(&xs1, &ys1, &[Color("red")]);
+
+    let xs2: Vec<i32> = wire2.into_iter().map(|p| p.x).collect();
+    let ys2: Vec<i32> = wire2.into_iter().map(|p| p.y).collect();
+
+    axes.lines(&xs2, &ys2, &[Color("blue")]);
+
+    figure.show().unwrap();
 }
 
 fn find_intersections(wire1: &Vec<Point2<i32>>, wire2: &Vec<Point2<i32>>) -> Vec<Point2<i32>> {
@@ -48,7 +57,7 @@ fn steps_to_point(
     let steps = wire1.iter().position(|p| p == point).unwrap()
         + wire2.iter().position(|p| p == point).unwrap();
     println!("distance to {} = {}", point, steps);
-    return steps;
+    return steps + 2;
 }
 
 pub fn star1() {
@@ -56,7 +65,6 @@ pub fn star1() {
     let mut wires: Vec<Vec<Point2<i32>>> = Vec::new();
     let re = Regex::new(r"(?P<direction>[UDLR])(?P<magnitude>[0-9]+)").unwrap();
 
-    let mut figure = Figure::new();
     for desc in &wire_description {
         let mut current_position: Point2<i32> = Point2::new(0, 0);
         let mut new_wire: Vec<Point2<i32>> = Vec::new();
@@ -84,7 +92,7 @@ pub fn star1() {
         wires.push(new_wire);
     }
 
-    plot_wire(&wires[0], &mut figure, Color("blue"));
+    plot_wires(&wires[0], &wires[1]);
 
     let intersections = find_intersections(&wires[0], &wires[1]);
     for inter in &intersections {
