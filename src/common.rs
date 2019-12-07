@@ -27,7 +27,7 @@ pub fn get_input(filepath: &str, separator: &str) -> Vec<String> {
 pub fn to_int_vec(string_vec: Vec<String>) -> Vec<i64> {
     let mut int_vec = Vec::new();
     for element in string_vec {
-        int_vec.push(element.parse::<i64>().unwrap());
+        int_vec.push(element.trim().parse::<i64>().unwrap());
     }
     return int_vec;
 }
