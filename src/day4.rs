@@ -16,7 +16,7 @@ pub fn star1() {
     println!("Star 1 {}", result);
 }
 
-pub fn star2() {
+pub fn star2() -> usize {
     let consecutive_digits =
         Regex::new(r"0{2,}|1{2,}|2{2,}|3{2,}|4{2,}|5{2,}|6{2,}|7{2,}|8{2,}|9{2,}").unwrap();
     let result = (input.0..input.1)
@@ -29,4 +29,5 @@ pub fn star2() {
         })
         .count();
     println!("Star 2 {}", result);
+    return result;
 }

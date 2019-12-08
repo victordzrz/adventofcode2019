@@ -48,19 +48,19 @@ pub fn star2() {
 
     let mut stacked_layer = ['2'; LAYER_SIZE];
 
-    let stacked_layer_result = input_string.chars().chunks(LAYER_SIZE).into_iter().fold(
-        &mut stacked_layer,
-        |stacked_layer, layer| {
+    println!("Day 8 Star 2");
+
+    input_string
+        .chars()
+        .chunks(LAYER_SIZE)
+        .into_iter()
+        .fold(&mut stacked_layer, |stacked_layer, layer| {
             layer.enumerate().for_each(|index_digit| {
                 stacked_layer[index_digit.0] =
                     stack_digits(stacked_layer[index_digit.0], index_digit.1)
             });
             stacked_layer
-        },
-    );
-
-    println!("Day 8 Star 2");
-    stacked_layer_result
+        })
         .iter()
         .map(|digit| if *digit == '1' { '$' } else { ' ' })
         .chunks(LAYER_LENGTH)
